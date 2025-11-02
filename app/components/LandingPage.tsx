@@ -7,7 +7,7 @@ interface LandingPageProps {
 }
 
 export default function LandingPage({ onStartQuiz }: LandingPageProps) {
-  const [topic, setTopic] = useState('');
+  const [topic, setTopic] = useState('dogs');
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();

@@ -187,7 +187,71 @@ const questionTemplates: Record<string, Question[]> = {
       options: ["H2O", "CO2", "NaCl", "CH4"],
       correctAnswer: 0
     }
-  ]
+  ],
+  dogs:[
+  {
+    id: 1,
+    text: "What is the most popular dog breed in the world according to the American Kennel Club?",
+    options: ["Labrador Retriever", "German Shepherd", "Golden Retriever", "Bulldog"],
+    correctAnswer: 0
+  },
+  {
+    id: 2,
+    text: "Which sense is most developed in dogs?",
+    options: ["Sight", "Taste", "Hearing", "Smell"],
+    correctAnswer: 3
+  },
+  {
+    id: 3,
+    text: "What is a group of puppies called?",
+    options: ["Pack", "Litter", "Herd", "Brood"],
+    correctAnswer: 1
+  },
+  {
+    id: 4,
+    text: "Which dog breed is known for its blue-black tongue?",
+    options: ["Chow Chow", "Pug", "Dalmatian", "Corgi"],
+    correctAnswer: 0
+  },
+  {
+    id: 5,
+    text: "Which part of a dog’s body is unique like a human fingerprint?",
+    options: ["Tail", "Nose print", "Paw pads", "Ears"],
+    correctAnswer: 1
+  },
+  {
+    id: 6,
+    text: "Which gene mutation is responsible for the short-legged appearance in breeds like Dachshunds and Corgis?",
+    options: ["FGF4 retrogene insertion", "MYO5A deletion", "COL1A1 mutation", "MC1R variant"],
+    correctAnswer: 0
+  },
+  {
+    id: 7,
+    text: "What is the scientific name of the domestic dog?",
+    options: ["Canis lupus", "Canis familiaris", "Canis domesticus", "Canis aureus"],
+    correctAnswer: 1
+  },
+  {
+    id: 8,
+    text: "Which part of a dog’s brain is most associated with its powerful sense of smell?",
+    options: ["Olfactory bulb", "Cerebellum", "Amygdala", "Frontal lobe"],
+    correctAnswer: 0
+  },
+  {
+    id: 9,
+    text: "What is the typical gestation period for dogs?",
+    options: ["45–50 days", "58–68 days", "70–80 days", "90–100 days"],
+    correctAnswer: 1
+  },
+  {
+    id: 10,
+    text: "Which ancient civilization is believed to have first domesticated dogs?",
+    options: ["Ancient Egypt", "Mesopotamia", "China", "Hunter-gatherer societies before agriculture"],
+    correctAnswer: 3
+  }
+]
+
+
 };
 
 // Generic questions for topics not in our database
