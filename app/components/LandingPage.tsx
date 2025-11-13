@@ -1,16 +1,39 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 interface LandingPageProps {
   onStartQuiz: (topic: string) => void;
+  isLoading?: boolean;
+  error?: string | null;
 }
 
-export default function LandingPage({ onStartQuiz }: LandingPageProps) {
-  const [topic, setTopic] = useState('dogs');
+export default function LandingPage(props: LandingPageProps) {
+  const { onStartQuiz, isLoading = false, error = null } = props;
+  const [topic, setTopic] = useState('');
+  const messages = [
+    'Your quiz is being generated',
+    'Get ready to be amazed',
+    "Let's test your IQ",
+  ];
+  const [loaderIndex, setLoaderIndex] = useState(0);
+
+  useEffect(() => {
+    if (!isLoading) {
+      setLoaderIndex(0);
+      return;
+    }
+
+    const id = setInterval(() => {
+      setLoaderIndex((i) => (i + 1) % messages.length);
+    }, 2000);
+
+    return () => clearInterval(id);
+  }, [isLoading]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    if (isLoading) return;
     if (topic.trim()) {
       onStartQuiz(topic.trim());
     }
@@ -49,12 +72,28 @@ export default function LandingPage({ onStartQuiz }: LandingPageProps) {
 
           <button
             type="submit"
-            disabled={!topic.trim()}
-            className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-3 px-6 rounded-lg font-semibold shadow-lg hover:from-blue-700 hover:to-indigo-700 disabled:from-gray-400 disabled:to-gray-400 disabled:cursor-not-allowed transition-all duration-200 transform hover:scale-105 disabled:hover:scale-100"
+            disabled={!topic.trim() || isLoading}
+            className="w-full flex items-center justify-center gap-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-3 px-6 rounded-lg font-semibold shadow-lg hover:from-blue-700 hover:to-indigo-700 disabled:from-gray-400 disabled:to-gray-400 disabled:cursor-not-allowed transition-all duration-200 transform hover:scale-105 disabled:hover:scale-100"
           >
-            Start Quiz
+            {isLoading ? (
+              <>
+                <svg className="w-5 h-5 animate-spin text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
+                </svg>
+                <span className="whitespace-nowrap">{messages[loaderIndex]}{'.'}</span>
+              </>
+            ) : (
+              'Start Quiz'
+            )}
           </button>
         </form>
+
+          {error && (
+            <div className="mt-4 text-sm text-red-600 text-center">
+              {error}
+            </div>
+          )}
 
         <div className="mt-8 text-center text-sm text-gray-500">
           You'll get 10 multiple choice questions

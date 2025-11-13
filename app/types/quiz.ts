@@ -23,4 +23,4 @@ export interface UserAnswer {
   isCorrect: boolean;
 }
 
-export type AppState = 'landing' | 'quiz' | 'results';
+export type AppState = 'landing' | 'quiz' | 'review' | 'results';

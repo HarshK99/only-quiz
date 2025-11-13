@@ -34,3 +34,27 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+## OpenAI integration
+
+This app can use the OpenAI API to generate quizzes. To enable OpenAI-based generation, set the `OPENAI_API_KEY` environment variable on your machine or in your deployment.
+
+Locally (PowerShell):
+
+```powershell
+$env:OPENAI_API_KEY = "sk-..."
+npm run dev
+```
+
+If `OPENAI_API_KEY` is not set, the app will fall back to a built-in mock question generator.
+
+Alternatively, copy the example env file and add your key:
+
+```powershell
+copy .\.env.local.example .\.env.local
+# Then edit .env.local and add your key
+```
+
+The project already ignores local env files via `.gitignore` so your key won't be committed.
+
+Note: The app includes a developer convenience: if you request the topic `dog` or `dogs`, the server will use the local fallback generator even if `OPENAI_API_KEY` is set or missing. All other topics require a valid OpenAI key.

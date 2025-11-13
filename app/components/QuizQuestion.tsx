@@ -10,6 +10,8 @@ interface QuizQuestionProps {
   totalQuestions: number;
   onAnswer: (selectedOption: number) => void;
   selectedOption: number | null;
+  isEditing?: boolean;
+  onBackToReview?: () => void;
 }
 
 export default function QuizQuestion({ 
@@ -17,17 +19,25 @@ export default function QuizQuestion({
   questionNumber, 
   totalQuestions, 
   onAnswer,
-  selectedOption
+  selectedOption,
+  isEditing,
+  onBackToReview
 }: QuizQuestionProps) {
   const [animatingOption, setAnimatingOption] = useState<number | null>(null);
+  const propsIsEditing = Boolean(isEditing);
 
   const handleOptionClick = (optionIndex: number) => {
-    if (selectedOption !== null) return; // Prevent changing answer
-    
+    // Allow changing selection when in editing mode
+    if (selectedOption !== null && !propsIsEditing) return;
+
     setAnimatingOption(optionIndex);
     setTimeout(() => {
       onAnswer(optionIndex);
       setAnimatingOption(null);
+      // If we're editing a single question, return to review after selecting
+      if (propsIsEditing && onBackToReview) {
+        onBackToReview();
+      }
     }, 200);
   };
 
@@ -59,6 +69,16 @@ export default function QuizQuestion({
         transition={{ type: "spring", stiffness: 300, damping: 30 }}
         className="bg-white rounded-2xl shadow-2xl p-8 max-w-2xl w-full"
       >
+        {propsIsEditing && (
+          <div className="flex justify-end mb-4">
+            <button
+              onClick={() => onBackToReview && onBackToReview()}
+              className="text-sm text-gray-600 hover:text-gray-800"
+            >
+              ← Back to review
+            </button>
+          </div>
+        )}
         {/* Progress bar */}
         <div className="mb-6">
           <div className="flex justify-between items-center mb-2">
@@ -99,11 +119,11 @@ export default function QuizQuestion({
               initial={{ x: -20, opacity: 0 }}
               animate={{ x: 0, opacity: 1 }}
               transition={{ delay: 0.3 + index * 0.1 }}
-              whileHover={{ scale: selectedOption === null ? 1.02 : 1 }}
-              whileTap={{ scale: selectedOption === null ? 0.98 : 1 }}
+              whileHover={{ scale: selectedOption === null || propsIsEditing ? 1.02 : 1 }}
+              whileTap={{ scale: selectedOption === null || propsIsEditing ? 0.98 : 1 }}
               onClick={() => handleOptionClick(index)}
               className={getOptionClasses(index)}
-              disabled={selectedOption !== null}
+              disabled={selectedOption !== null && !propsIsEditing}
             >
               <div className="flex items-center">
                 <div className="flex-shrink-0 w-6 h-6 mr-3">

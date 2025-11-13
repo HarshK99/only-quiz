@@ -1,6 +1,7 @@
 'use client';
 
 import { Question, UserAnswer } from '../types/quiz';
+import QuestionSummaryItem from './QuestionSummaryItem';
 
 interface ScorePageProps {
   score: number;
@@ -69,38 +70,14 @@ export default function ScorePage({
           <div className="space-y-3 max-h-60 overflow-y-auto">
             {questions.map((question, index) => {
               const userAnswer = userAnswers.find(a => a.questionId === question.id);
-              const isCorrect = userAnswer?.isCorrect || false;
-              
               return (
-                <div 
+                <QuestionSummaryItem
                   key={question.id}
-                  className={`p-3 rounded-lg border-2 ${
-                    isCorrect 
-                      ? 'border-green-200 bg-green-50' 
-                      : 'border-red-200 bg-red-50'
-                  }`}
-                >
-                  <div className="flex items-start justify-between">
-                    <div className="flex-1">
-                      <p className="text-sm font-medium text-gray-800 mb-1">
-                        Q{index + 1}: {question.text}
-                      </p>
-                      <p className="text-xs text-gray-600">
-                        Your answer: {question.options[userAnswer?.selectedOption || 0]}
-                      </p>
-                      {!isCorrect && (
-                        <p className="text-xs text-green-700 mt-1">
-                          Correct: {question.options[question.correctAnswer]}
-                        </p>
-                      )}
-                    </div>
-                    <div className={`flex-shrink-0 ml-3 ${
-                      isCorrect ? 'text-green-600' : 'text-red-600'
-                    }`}>
-                      {isCorrect ? '✓' : '✗'}
-                    </div>
-                  </div>
-                </div>
+                  question={question}
+                  userAnswer={userAnswer}
+                  index={index}
+                  showCorrect
+                />
               );
             })}
           </div>
